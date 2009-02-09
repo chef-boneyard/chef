@@ -17,19 +17,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-runit_service "stompserver"
+include_recipe "runit"
+include_recipe "couchdb"
+include_recipe "stompserver" 
 
-package "couchdb"
-
-directory "/var/lib/couchdb" do
-  owner "couchdb"
-  group "couchdb"
-  recursive true
+directory "/etc/chef" do
+  owner "root"
+  mode 0755
 end
 
-service "couchdb" do
-  supports :restart => true, :status => true
-  action :enable
+template "/etc/chef/server.rb" do
+  owner "root"
+  mode 0644
+  source "server.rb.erb"
+  action :create
+end
+
+template "/etc/chef/client.rb" do
+  owner "root"
+  mode 0644
+  source "client.rb.erb"
+  action :create
 end
 
 runit_service "chef-indexer" 
