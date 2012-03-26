@@ -35,8 +35,8 @@ else
   default['chef']['backup_path'] = "#{chef['path']}/backup"
 end
 
-default['chef']['server_version']  = node.chef_packages.chef['version']
-default['chef']['client_version']  = node.chef_packages.chef['version']
+default['chef']['server_version']  = node['chef_packages']['chef']['version']
+default['chef']['client_version']  = node['chef_packages']['chef']['version']
 default['chef']['client_interval'] = "1800"
 default['chef']['client_splay']    = "20"
 default['chef']['log_dir']         = "/var/log/chef"
@@ -47,4 +47,4 @@ default['chef']['solr_heap_size']  = "256M"
 default['chef']['validation_client_name'] = "chef-validator"
 
 default['chef']['server_fqdn']     = node.has_key?(:domain) ? "chef.#{domain}" : "chef"
-default['chef']['server_url']      = "#{node.chef.url_type}://#{node.chef.server_fqdn}:#{node.chef.server_port}"
+default['chef']['server_url']      = "#{node['chef']['url_type']}://#{node['chef']['server_fqdn']}:#{node['chef']['server_port']}"
